@@ -22,7 +22,7 @@ class MapSearcher(QMainWindow):
         lat = self.lat.text()
         delta1 = str(float(self.spn.text()))
         delta2 = str(float(self.spn.text()))
-        apikey = "5815d7d2-6bbe-424d-a32d-028b8c596fa2"
+        apikey = "5815d7d2-6bbe-424d-a32d-028b8c596fa2" =
 
         params = {
             "ll": ",".join([lon, lat]),
