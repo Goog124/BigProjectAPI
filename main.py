@@ -3,7 +3,8 @@ import sys, requests
 from PyQt6 import uic  # Импортируем uic
 from PyQt6.QtGui import QPixmap
 from PyQt6.QtWidgets import QApplication, QMainWindow
-
+from io import BytesIO
+from PIL import Image
 
 class MapSearcher(QMainWindow):
     def __init__(self):
@@ -19,9 +20,9 @@ class MapSearcher(QMainWindow):
         api_server = "https://static-maps.yandex.ru/v1"
         lon = self.lon.text()
         lat = self.lat.text()
-        delta1 = self.spn.text()
-        delta2 = self.spn.text()
-        apikey = "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
+        delta1 = str(float(self.spn.text()))
+        delta2 = str(float(self.spn.text()))
+        apikey = "5815d7d2-6bbe-424d-a32d-028b8c596fa2"
 
         params = {
             "ll": ",".join([lon, lat]),

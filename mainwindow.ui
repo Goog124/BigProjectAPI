@@ -91,6 +91,9 @@
     <property name="toolTip">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Долгота&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
+    <property name="text">
+     <string>32</string>
+    </property>
    </widget>
    <widget class="QLineEdit" name="lat">
     <property name="geometry">
@@ -101,6 +104,9 @@
       <height>29</height>
      </rect>
     </property>
+    <property name="text">
+     <string>33</string>
+    </property>
    </widget>
    <widget class="QLineEdit" name="spn">
     <property name="geometry">
@@ -110,6 +116,9 @@
       <width>151</width>
       <height>29</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>0.05</string>
     </property>
    </widget>
   </widget>
