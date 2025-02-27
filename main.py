@@ -39,7 +39,7 @@ class MapSearcher(QMainWindow):
             print("Ошибка выполнения запроса:")
             print("Http статус:", response.status_code, "(", response.reason, ")")
 
-        self.map_file = "map.png"
+        self.map_file = "static/map.png"
         with open(self.map_file, "wb") as file:
             file.write(response.content)
 
