@@ -1,7 +1,10 @@
-from flask import Flask, url_for, render_template, request
+from flask import *
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms.validators import DataRequired
 
 app = Flask(__name__)
-
+app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 @app.route('/<title>')
 @app.route('/index/<title>')
 def index(title):
@@ -23,6 +26,27 @@ def plan(prof):
 def get_prof_list(type_list):
     prof_list = [1, 2, 3, 4, 5]
     return render_template("list.html", type_list=type_list, list=prof_list)
+
+
+class LoginForm(FlaskForm):
+    username = StringField('Логин', validators=[DataRequired()])
+    password = PasswordField('Пароль', validators=[DataRequired()])
+    remember_me = BooleanField('Запомнить меня')
+    submit = SubmitField('Войти')
+
+
+@app.route('/answer', methods=['GET', 'POST'])
+@app.route('/auto_answer', methods=['GET', 'POST'])
+def answer():
+    form = LoginForm()
+    if form.validate_on_submit():
+        return redirect('/success')
+    return render_template('auto_answer.html', title='Авторизация', form=form)
+
+
+@app.route('/success')
+def otvet():
+    pass
 
 
 if __name__ == '__main__':
