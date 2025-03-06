@@ -30,10 +30,14 @@ def get_prof_list(type_list):
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Логин', validators=[DataRequired()])
-    password = PasswordField('Пароль', validators=[DataRequired()])
-    remember_me = BooleanField('Запомнить меня')
-    submit = SubmitField('Войти')
+    name = StringField('Имя', validators=[DataRequired()])
+    surname = StringField('Фамилия', validators=[DataRequired()])
+    education = StringField('Образование', validators=[DataRequired()])
+    profession = StringField('Профессия', validators=[DataRequired()])
+    sex = StringField('Пол', validators=[DataRequired()])
+    motivation = StringField("Мотивация", validators=[DataRequired()])
+    ready = BooleanField('Готовы остаться на марсе?')
+    submit = SubmitField('Записаться')
 
 
 @app.route('/answer', methods=['GET', 'POST'])
@@ -41,13 +45,23 @@ class LoginForm(FlaskForm):
 def answer():
     form = LoginForm()
     if form.validate_on_submit():
-        return redirect('/success')
+        res = {
+            "Фамилия": form.data["surname"],
+            "Имя": form.data["name"],
+            "Образование": form.data["education"],
+            "Профессия": form.data["profession"],
+            "Пол": form.data["sex"],
+            "Мотивация": form.data["motivation"],
+            "Готовы остаться на марсе?": form.data["ready"],
+        }
+        # return "<br>".join([f"{i} : {j}" for i, j in res.items()])
+        return render_template('otvet.html', data=res)
     return render_template('auto_answer.html', title='Авторизация', form=form)
 
 
-@app.route('/success')
-def otvet():
-    return "Ура"
+@app.route('/success/<data>')
+def otvet(data):
+    return ""
 
 
 if __name__ == '__main__':
