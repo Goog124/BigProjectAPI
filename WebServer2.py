@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+
 @app.route('/<title>')
 @app.route('/index/<title>')
 def index(title):
@@ -46,7 +47,7 @@ def answer():
 
 @app.route('/success')
 def otvet():
-    pass
+    return "Ура"
 
 
 if __name__ == '__main__':
