@@ -1,8 +1,12 @@
+from datetime import datetime, timedelta
 from flask import *
 from data import db_session
-from flask_login import LoginManager, login_user
+from flask_login import LoginManager, login_user, login_required, logout_user
 from data.users import User
+from data.jobs import Jobs
 from data.login import LoginForm
+from data.job_form_model import JobForm
+import werkzeug.security
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -24,9 +28,11 @@ def index():
 def test():
     return render_template("content.html")
 
-def main():
-    db_session.global_init("db/blogs.db")
-    app.run(port=8080, host='127.0.0.1')
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect("/")
 
 @app.route("/cookie_test")
 def cookie_test():
@@ -48,6 +54,29 @@ def login():
                                message="Неправильный логин или пароль",
                                form=form)
     return render_template('login.html', title='Авторизация', form=form)
+
+@app.route('/work', methods=['GET', 'POST'])
+def work():
+    form = JobForm()
+    if form.validate_on_submit():
+        db_sess = db_session.create_session()
+        job = Jobs()
+        job.team_leader = form.team_leader
+        job.job = form.job
+        job.work_size = form.work_size
+        job.collaborators = form.collaborators
+        job.is_finished = bool(form.work_done)
+        job.start_date = datetime.now()
+        job.end_date = datetime.now() + timedelta(days=3)
+        db_sess.add(job)
+        db_sess.commit()
+        return redirect("/")
+    return render_template('add_work.html', title='Работа', form=form)
+
+def main():
+    db_session.global_init("db/blogs.db")
+    app.run(port=8080, host='127.0.0.1')
+
 
 if __name__ == '__main__':
     main()
