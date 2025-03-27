@@ -1,16 +1,38 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Записи в блоге</h1>
-{% for item in jobs%}
-<div class="col-md6 border rounded">
-    <h2>{{item.id}}</h2>
-    <div>
-        {{item.job}}
-    </div>
-    <div>
-        Автор - {{item.team_leader}}, Дата написания - {{item.start_date}}
-    </div>
-</div>
-{% endfor %}
+<h1 align="center">Работа</h1>
+<style>
+  td {
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+</style>
+<table class="table table-dark">
+    <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">id Начальника</th>
+           <th scope="col">id рабочих</th>
+          <th scope="col">Работа</th>
+          <th scope="col">Начало</th>
+            <th scope="col">Конец</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in jobs%}
+            <tr>
+                  <td>{{item.id}}</td>
+                  <td>{{item.team_leader}}</td>
+                <td>{{item.collaborators}}</td>
+                  <td>{{item.job}}</td>
+                  <td>{{item.start_date}}</td>
+                  <td>{{item.end_date}}</td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
 {% endblock %}
+
+
