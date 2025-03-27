@@ -1,11 +1,14 @@
 from datetime import datetime, timedelta
 from flask import *
+from pyexpat.errors import messages
+
 from data import db_session
 from flask_login import LoginManager, login_user, login_required, logout_user
 from data.users import User
 from data.jobs import Jobs
 from data.login import LoginForm
 from data.job_form_model import JobForm
+from data.resister_form import RegisterForm
 import werkzeug.security
 
 app = Flask(__name__)
@@ -22,7 +25,10 @@ def load_user(user_id):
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template('base.html')
+    db_sess = db_session.create_session()
+    jobs = db_sess.query(Jobs).all()
+    db_sess.commit()
+    return render_template('all_jobs.html', jobs=jobs)
 
 @app.route('/logout')
 @login_required
@@ -50,6 +56,31 @@ def login():
                                message="Неправильный логин или пароль",
                                form=form)
     return render_template('login.html', title='Авторизация', form=form)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        user = User()
+        db_sess = db_session.create_session()
+        user.surname = form.surname.data
+        user.name = form.surname.data
+        user.age = form.age.data
+        user.position = form.position.data
+        user.speciality = form.speciality.data
+        user.address = form.address.data
+        user.email = form.email.data
+        user.set_password(form.password.data)
+        db_sess.add(user)
+        try:
+            db_sess.commit()
+        except Exception as e:
+            return render_template('register_user.html',
+                                          title='Регистрация',
+                                          form=form,
+                                          message="Уже есть")
+        return redirect("/login")
+    return render_template('register_user.html', title='Регистрация', form=form)
 
 @app.route('/work', methods=['GET', 'POST'])
 def work():
