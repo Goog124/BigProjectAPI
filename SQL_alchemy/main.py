@@ -24,10 +24,6 @@ def load_user(user_id):
 def index():
     return render_template('base.html')
 
-@app.route('/test')
-def test():
-    return render_template("content.html")
-
 @app.route('/logout')
 @login_required
 def logout():
