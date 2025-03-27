@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Регистрация</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.email.label }}<br>
+            {{ form.email() }}<br>
+        </p>
+        <p>
+            {{ form.team_leader.label }}<br>
+            {{ form.team_leader() }}<br>
+        </p>
+        <p>
+            {{ form.work_size.label }}<br>
+            {{ form.work_size() }}<br>
+        </p>
+        <p>
+            {{ form.collaborators.label }}<br>
+            {{ form.collaborators() }}<br>
+        </p>
+        <p>{{ form.work_done() }} {{ form.work_done.label }}</p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <div>{{ message }}</div>
+    </form>
+{% endblock %}
