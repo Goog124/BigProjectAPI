@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta
 from flask import *
-from pyexpat.errors import messages
 
 from data import db_session
 from flask_login import LoginManager, login_user, login_required, logout_user
@@ -9,7 +8,7 @@ from data.jobs import Jobs
 from data.login import LoginForm
 from data.job_form_model import JobForm
 from data.resister_form import RegisterForm
-import werkzeug.security
+from data import jobs_api
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -93,8 +92,17 @@ def work():
         return redirect("/")
     return render_template('add_work.html', title='Работа', form=form)
 
+@app.errorhandler(400)
+def bad_request(_):
+    return make_response(jsonify({'error': 'Bad Request'}), 400)
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
+
 def main():
     db_session.global_init("db/blogs.db")
+    app.register_blueprint(jobs_api.blueprint)
     app.run(port=8080, host='127.0.0.1')
 
 
