@@ -36,13 +36,6 @@ def logout():
     logout_user()
     return redirect("/")
 
-@app.route("/cookie_test")
-def cookie_test():
-    visits_count = session.get('visits_count', 0)
-    session['visits_count'] = visits_count + 1
-    return make_response(
-        f"Вы пришли на эту страницу {visits_count + 1} раз")
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()

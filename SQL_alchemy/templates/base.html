@@ -36,7 +36,16 @@
     </ul>
   </div>
 </nav>
-    {% block content %}
+
+    {% if current_user.is_authenticated %}
+        {% block content %}
+        {% endblock %}
+    {% else %}
+    <div class="parent">
+      <div class="child">Войдите в систему</div>
+    </div>
+    {% endif %}
+    {% block login %}
     {% endblock %}
     </body>
 

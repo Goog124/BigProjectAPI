@@ -1,7 +1,11 @@
-import requests
+class Triangle:
+    def __init__(self, a, b, c):
+        self.a, self.b, self.c = a, b, c
 
-response = requests.get("http://127.0.0.1:8080")
+    def perimeter(self):
+        return self.a + self.b + self.c
 
-content = response.json()
 
-print(content)
+class EquilateralTriangle(Triangle):
+    def __init__(self, a):
+        super().__init__(a, a, a)
