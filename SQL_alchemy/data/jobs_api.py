@@ -1,8 +1,7 @@
-from os import abort
-
 import flask
 from . import db_session
 from . jobs import Jobs
+
 
 blueprint = flask.Blueprint(
     'jobs_api',
